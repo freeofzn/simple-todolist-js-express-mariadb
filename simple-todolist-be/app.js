@@ -2,6 +2,7 @@ const express = require("express");
 const cors = require("cors");
 const mysql = require("mysql");
 const mybatisMapper = require("mybatis-mapper");
+const moment = require("moment");
 
 const app = express();
 const port = 3000;
@@ -67,11 +68,13 @@ app.get("/selectTodoList", (req, res) => {
  * @return
  */
 app.post("/saveTodoList", function (req, res) {
-  let row = req;
-  let rstMst = "저장성공";
+  const curDateTime = moment(new Date()).format("YYYY-MM-DD HH:mm:ss");
+
+  console.log(curDateTime);
 
   req.body.TODO_LIST_ARR.forEach(function (row) {
     param = {
+      TL_DATE: curDateTime,
       TL_TITLE: row.title,
       ALT_USER: "loginid",
     };
@@ -83,7 +86,7 @@ app.post("/saveTodoList", function (req, res) {
     });
   });
 
-  res.json(JSON.stringify({ RST_MSG: rstMst }));
+  res.json(JSON.stringify({ RST_MSG: "OK" }));
 });
 
 /**

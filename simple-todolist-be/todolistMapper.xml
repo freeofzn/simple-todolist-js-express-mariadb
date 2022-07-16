@@ -20,7 +20,7 @@
 <!-- Todolist 입력 -->
 <insert id="insertTodo">
   INSERT INTO TODO_LIST (TL_DATE, TL_TITLE, ALT_USER, ALT_DATE) 
-  VALUES (SYSDATE(), #{TL_TITLE}, #{ALT_USER}, SYSDATE())
+  VALUES (#{TL_DATE}, #{TL_TITLE}, #{ALT_USER}, SYSDATE())
 </insert>  
 
 
