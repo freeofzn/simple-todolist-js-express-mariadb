@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="todolist">  
+
+<!-- Todolist 전체이력조회 -->
+<select id="selectTodoListHistory">
+  SELECT DATE_FORMAT(TL_DATE,'%Y-%m-%d(%a) %H:%i:%S')  AS TL_DATE_FORMAT, 
+         DATE_FORMAT(TL_DATE,'%Y-%m-%d %H:%i:%S') AS TL_DATE, 
+         TL_TITLE 
+    FROM TODO_LIST 
+   WHERE (TL_DATE, TL_SEQ) IN (SELECT TL_DATE, MIN(TL_SEQ) FROM TODO_LIST GROUP BY TL_DATE)
+   ORDER BY TL_DATE DESC 
+</select>
+
+<!-- Todolist 조회 -->
+<select id="selectTodoList">
+  SELECT DATE_FORMAT(TL_DATE,'%Y-%m-%d(%a) %H:%i:%S') AS TL_DATE, TL_TITLE FROM TODO_LIST WHERE TL_DATE = #{TL_DATE} ORDER BY TL_SEQ
+</select>
+
+<!-- Todolist 입력 -->
+<insert id="insertTodo">
+  INSERT INTO TODO_LIST (TL_DATE, TL_TITLE, ALT_USER, ALT_DATE) 
+  VALUES (SYSDATE(), #{TL_TITLE}, #{ALT_USER}, SYSDATE())
+</insert>  
+
+
+<!-- Todolist 삭제 -->
+<delete id="deleteTodoList">
+  DELETE FROM TODO_LIST WHERE TL_DATE = #{TL_DATE}
+</delete>  
+
+</mapper>
+ 
